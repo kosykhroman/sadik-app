@@ -4,14 +4,14 @@ on: [push, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: windows-latest  # <-- Вернули быстрый сервер!
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
       
-      - name: Set up Python 3.9 (32-bit)
+      - name: Set up Python 3.8 (32-bit)
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: '3.8'
           architecture: 'x86'
       
       - name: Install PyInstaller
@@ -20,12 +20,8 @@ jobs:
       - name: Build EXE
         run: python -m PyInstaller --onefile --windowed --name "sadik" sadik.py
       
-      - name: Add missing DLL for old Windows
-        run: |
-          Copy-Item "C:\Windows\SysWOW64\api-ms-win-core-path-l1-1-0.dll" -Destination "dist\"
-      
-      - name: Upload EXE and DLL
+      - name: Upload EXE
         uses: actions/upload-artifact@v4
         with:
-          name: sadik-exe-compatible
-          path: dist/  # <-- Упакуем всю папку целиком
+          name: sadik-exe-final
+          path: dist/sadik.exeвсю папку целиком
