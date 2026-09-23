@@ -4,7 +4,7 @@ on: [push, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: windows-2019  # <-- ЭТО ГЛАВНОЕ! Собираем на старой Windows для совместимости
+    runs-on: windows-latest  # <-- Вернули быстрый сервер!
     steps:
       - uses: actions/checkout@v4
       
@@ -20,8 +20,12 @@ jobs:
       - name: Build EXE
         run: python -m PyInstaller --onefile --windowed --name "sadik" sadik.py
       
-      - name: Upload EXE
+      - name: Add missing DLL for old Windows
+        run: |
+          Copy-Item "C:\Windows\SysWOW64\api-ms-win-core-path-l1-1-0.dll" -Destination "dist\"
+      
+      - name: Upload EXE and DLL
         uses: actions/upload-artifact@v4
         with:
           name: sadik-exe-compatible
-          path: dist/sadik.exe
+          path: dist/  # <-- Упакуем всю папку целиком
