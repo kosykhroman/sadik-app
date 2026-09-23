@@ -8,10 +8,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Set up Python 32-bit
+      - name: Set up Python 3.9 (32-bit)
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.9'
           architecture: 'x86'
       
       - name: Install PyInstaller
@@ -23,5 +23,5 @@ jobs:
       - name: Upload EXE
         uses: actions/upload-artifact@v4
         with:
-          name: sadik-exe-32bit
+          name: sadik-exe-32bit-py39
           path: dist/sadik.exe
