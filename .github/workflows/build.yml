@@ -1,10 +1,10 @@
-name: Build 32-bit EXE
+name: Build Compatible EXE
 
 on: [push, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2019  # <-- ЭТО ГЛАВНОЕ! Собираем на старой Windows для совместимости
     steps:
       - uses: actions/checkout@v4
       
@@ -23,5 +23,5 @@ jobs:
       - name: Upload EXE
         uses: actions/upload-artifact@v4
         with:
-          name: sadik-exe-32bit-py39
+          name: sadik-exe-compatible
           path: dist/sadik.exe
